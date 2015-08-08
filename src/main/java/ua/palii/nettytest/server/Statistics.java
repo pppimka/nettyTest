@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by VVV on 05.08.2015.
@@ -16,7 +17,7 @@ public class Statistics {
 
     private ConcurrentLinkedQueue<ConnectionInfo> connectionLog;
 
-    private Integer openConnection = 0;
+    private AtomicInteger openConnection;
 
     private volatile long requestCount;
 
@@ -26,18 +27,19 @@ public class Statistics {
         redirect = new ConcurrentHashMap<String, Integer>();
         ipRequestCounter = new ConcurrentHashMap<String, CountRequestsAndTime>();
         connectionLog = new ConcurrentLinkedQueue<ConnectionInfo>();
+        openConnection = new AtomicInteger(0);
     }
 
     public void addConnection() {
-        openConnection++;
+        openConnection.incrementAndGet();
 
     }
 
     public void removeConnection() {
-        openConnection--;
+        openConnection.decrementAndGet();
     }
 
-    public Integer getOpenConnections() {
+    public AtomicInteger getOpenConnections() {
         return openConnection;
     }
 
