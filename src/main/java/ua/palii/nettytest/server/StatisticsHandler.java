@@ -49,9 +49,13 @@ public class StatisticsHandler extends SimpleChannelInboundHandler<FullHttpReque
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         traffic.stop();
-        connectionInfo.setTraffic(traffic);
-        statistics.addLastConnection(connectionInfo);
         statistics.removeConnection();
+        try {
+            connectionInfo.setTraffic(traffic);
+            statistics.addLastConnection(connectionInfo);
+        } catch (Exception e) {
+
+        }
     }
 
 }

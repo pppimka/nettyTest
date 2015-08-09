@@ -34,15 +34,8 @@ public class RequestInfo {
     }
 
     public void writeResponse(String str) {
-        String res;
-        if (str.equals("statistics.html")) {
-            res = StatisticPage.getStatisticsPage();
-        } else {
-            res = FreemarkerConfig.getInstance().getPage(str);
-        }
-
         FullHttpResponse response = new DefaultFullHttpResponse(
-                HTTP_1_1, OK, Unpooled.copiedBuffer(res, CharsetUtil.UTF_8));
+                HTTP_1_1, OK, Unpooled.copiedBuffer(str, CharsetUtil.UTF_8));
         response.headers().set(CONTENT_TYPE, "text/html; charset=UTF-8");
 
         ctx.write(response).addListener(ChannelFutureListener.CLOSE);

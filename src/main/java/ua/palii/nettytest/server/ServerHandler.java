@@ -14,13 +14,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 
     private static final int TIMEOUT = 10000;
 
-    private final String HELLO_PAGE = "hello.html";
-
-    private final String NOT_FOUND = "notFound.html";
-
-    private final String STATISTICS = "statistics.html";
-
-
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         RequestInfo requestInfo = new RequestInfo(ctx, request);
@@ -43,19 +36,17 @@ public class ServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 
     private void selectPage(RequestInfo requestInfo) {
         String path = requestInfo.getPath();
-        HashMap<String, Object> map = new HashMap<String, Object>();
         if (path.equals("/hello")) {
             sleep();
-            requestInfo.writeResponse(HELLO_PAGE);
+            requestInfo.writeResponse(Pages.getHelloPage());
         } else if (path.equals("/status")) {
-            requestInfo.writeResponse(STATISTICS);
+            requestInfo.writeResponse(Pages.getStatisticsPage());
         } else if (path.equals("/redirect") && requestInfo.getUrl() != null) {
 
             requestInfo.redirect(requestInfo.getUrl());
         } else {
-            requestInfo.writeResponse(NOT_FOUND);
+            requestInfo.writeResponse(Pages.getNotFoundPage());
         }
-
     }
 
     private void sleep() {

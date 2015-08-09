@@ -6,9 +6,21 @@ import ua.palii.nettytest.server.Statistics;
 /**
  * Created by VVV on 05.08.2015.
  */
-public class StatisticPage {
+public class Pages {
 
     private static Statistics statistics = Statistics.getInstance();
+
+    public static String getHelloPage() {
+        return "<html><head><title>Hello world</title>\n" +
+                "<link rel=\"shortcut icon\" href=\"data:image/x-icon;,\" type=\"image/x-icon\">\n" +
+                "</head><body><h1>Hello world!</h1></body></html>";
+    }
+
+    public static String getNotFoundPage() {
+        return "<html><head><title>404</title>\n" +
+                "<link rel=\"shortcut icon\" href=\"data:image/x-icon;,\" type=\"image/x-icon\">\n" +
+                "</head><body><h1>Not found!</h1></body></html>";
+    }
 
     public static String getStatisticsPage() {
         StringBuffer s = new StringBuffer("<!DOCTYPE html><html><head><title>Statistics</title>\n" +

@@ -16,13 +16,14 @@ public class Traffic {
     private long sentBytes;
     private long receivedBytes;
     private double speed;
+    private long startTime;
 
     private TrafficCounter trafficCounter;
 
     public Traffic(ChannelHandlerContext ctx) {
         trafficCounter = ctx.pipeline().get(ChannelTrafficShapingHandler.class).trafficCounter();
         trafficCounter.start();
-
+        startTime = System.nanoTime();
     }
 
     public LocalDateTime getTimestamp() {
@@ -46,8 +47,8 @@ public class Traffic {
         timestamp = LocalDateTime.now();
         sentBytes = trafficCounter.cumulativeWrittenBytes();
         receivedBytes = trafficCounter.cumulativeReadBytes();
-        speed = (sentBytes + receivedBytes) * 1000000 /
-                (System.currentTimeMillis() - trafficCounter.lastCumulativeTime());
+        speed = (sentBytes + receivedBytes) * 1000000000 /
+                (System.nanoTime() - startTime);
     }
 
     @Override

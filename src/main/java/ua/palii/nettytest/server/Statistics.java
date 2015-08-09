@@ -19,7 +19,7 @@ public class Statistics {
 
     private AtomicInteger openConnection;
 
-    private volatile long requestCount;
+    private AtomicInteger requestCount;
 
     private static Statistics instance = new Statistics();
 
@@ -28,6 +28,7 @@ public class Statistics {
         ipRequestCounter = new ConcurrentHashMap<String, CountRequestsAndTime>();
         connectionLog = new ConcurrentLinkedQueue<ConnectionInfo>();
         openConnection = new AtomicInteger(0);
+        requestCount = new AtomicInteger(0);
     }
 
     public void addConnection() {
@@ -43,7 +44,7 @@ public class Statistics {
         return openConnection;
     }
 
-    public long getRequestCount() {
+    public AtomicInteger getRequestCount() {
         return requestCount;
     }
 
@@ -57,7 +58,7 @@ public class Statistics {
         } else {
             ipRequestCounter.put(ip, new CountRequestsAndTime(1, LocalDateTime.now()));
         }
-        requestCount++;
+        requestCount.incrementAndGet();
     }
 
     public Integer getUniqueRequests() {
